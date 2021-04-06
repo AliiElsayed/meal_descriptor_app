@@ -25,18 +25,12 @@ class MealDetailsScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Ingredients',
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            ),
+            titleContainer(context,'Ingredients'),
             Container(
               margin: EdgeInsets.all(10.0),
               padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
               height: 170,
-              width: 300,
+              width: 320,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.grey),
@@ -54,9 +48,52 @@ class MealDetailsScreen extends StatelessWidget {
                   );
                 } ,),
             ),
+            titleContainer(context, 'Steps'),
+            Container(
+              height: 200,
+              width: 350,
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              child: ListView.builder(
+                  itemCount: selectedMeal.steps.length,
+                  itemBuilder: (context,index ){
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Text('${index+1}'),
+                            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
+                          ),
+                          title: Text('${selectedMeal.steps[index]}',),
+
+                        ),
+                        Divider(
+                          height: 3.0,
+                          thickness: 2.0,
+                        ),
+                      ],
+                    );
+
+                  }),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Align titleContainer(BuildContext context, String title) {
+    return Align(
+            alignment: Alignment.center,
+            child: Text(
+             title,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          );
   }
 }
