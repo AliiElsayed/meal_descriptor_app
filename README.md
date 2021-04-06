@@ -1,6 +1,6 @@
 # meal_app
 
-A new Flutter application.
+A new Flutter application for meals and recipes.
 
 ## Getting Started
 
