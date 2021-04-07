@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/category_meals_screen.dart';
 import 'package:meal_app/screens/meal_details_screen.dart';
+import 'package:meal_app/screens/tabs_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meal Descriptor',
-      initialRoute: CategoryHomePage.id,
+      initialRoute: TabsScreen.id,
       routes: {
-        CategoryHomePage.id:(context)=>CategoryHomePage(),
+        TabsScreen.id :(context)=> TabsScreen(),
+        CategoriesScreen.id:(context)=>CategoriesScreen(),
         CatMealsScreen.id: (context)=> CatMealsScreen(),
         MealDetailsScreen.id: (context)=> MealDetailsScreen(),
       },
