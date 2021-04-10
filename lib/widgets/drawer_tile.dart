@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/screens/tabs_screen.dart';
 
 class DrawerTile extends StatelessWidget {
   final String title;

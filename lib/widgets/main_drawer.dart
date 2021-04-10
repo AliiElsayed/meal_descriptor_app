@@ -4,10 +4,6 @@ import 'package:meal_app/widgets/drawer_tile.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Drawer(

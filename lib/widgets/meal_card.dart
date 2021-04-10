@@ -9,8 +9,10 @@ class MealCard extends StatelessWidget {
   final Complexity complexity;
   final Affordability affordability;
   final String imagePath;
+  final Function removeMeal;
 
   MealCard({
+    @required this.removeMeal,
     @required this.id,
     @required this.mealName,
     @required this.duration,
@@ -57,7 +59,11 @@ class MealCard extends StatelessWidget {
         Navigator.of(context).pushNamed(
           MealDetailsScreen.id,
           arguments: id,
-        );
+        ).then((returnedMealId){
+          if(returnedMealId != null) {
+            removeMeal(returnedMealId) ;
+          }
+        } );
       },
       child: Card(
         margin: EdgeInsets.all(10.0),
@@ -74,11 +80,14 @@ class MealCard extends StatelessWidget {
                     topLeft: Radius.circular(15.0),
                     topRight: Radius.circular(15.0),
                   ),
-                  child: Image.network(
-                    imagePath,
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: 'mealImage$id',
+                    child: Image.network(
+                      imagePath,
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Positioned(

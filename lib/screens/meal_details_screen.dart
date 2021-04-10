@@ -20,9 +20,12 @@ class MealDetailsScreen extends StatelessWidget {
               height: 190,
               width: double.infinity,
               margin: EdgeInsets.only(bottom:10.0),
-              child: Image.network(
-                selectedMeal.imageUrl,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: 'mealImage$mealId',
+                child: Image.network(
+                  selectedMeal.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             titleContainer(context,'Ingredients'),
@@ -83,6 +86,12 @@ class MealDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:(){
+          Navigator.of(context).pop(mealId);
+        } ,
+        child: Icon(Icons.delete) ,
       ),
     );
   }
