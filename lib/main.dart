@@ -18,6 +18,31 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Meal> filteredData = usedMeals;
+  List<Meal> favoriteMeals = [];
+  void _toggleFavorites(String mealId) {
+    setState(() {
+      final retrievedIndex = favoriteMeals.indexWhere((meal) {
+        return meal.id == mealId;
+      });
+
+      if (retrievedIndex >= 0) {
+        favoriteMeals.removeAt(retrievedIndex);
+      } else {
+        favoriteMeals.add(
+          usedMeals.firstWhere((meal) {
+            return meal.id == mealId;
+          }),
+        );
+      }
+    });
+  }
+
+  bool _isFavoriteMeal(String mealId) {
+   return favoriteMeals.any((meal) {
+      return meal.id == mealId;
+    });
+  }
+
   Map<String, bool> _filters = {
     'gluten-free': false,
     'lactose-free': false,
@@ -53,14 +78,17 @@ class _MyAppState extends State<MyApp> {
       title: 'Meal Descriptor',
       initialRoute: TabsScreen.id,
       routes: {
-        TabsScreen.id: (context) => TabsScreen(),
+        TabsScreen.id: (context) => TabsScreen(favoriteMeals),
         FiltersScreen.id: (context) => FiltersScreen(
               doFilters: _setFilters,
               receivedFilters: _filters,
             ),
         CategoriesScreen.id: (context) => CategoriesScreen(),
         CatMealsScreen.id: (context) => CatMealsScreen(filteredData),
-        MealDetailsScreen.id: (context) => MealDetailsScreen(),
+        MealDetailsScreen.id: (context) => MealDetailsScreen(
+              toggleFavorites: _toggleFavorites,
+              isFavorite: _isFavoriteMeal,
+            ),
       },
       theme: ThemeData(
         primarySwatch: Colors.pink,

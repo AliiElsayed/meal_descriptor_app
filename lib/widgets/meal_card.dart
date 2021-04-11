@@ -9,10 +9,8 @@ class MealCard extends StatelessWidget {
   final Complexity complexity;
   final Affordability affordability;
   final String imagePath;
-  final Function removeMeal;
 
   MealCard({
-    @required this.removeMeal,
     @required this.id,
     @required this.mealName,
     @required this.duration,
@@ -60,9 +58,8 @@ class MealCard extends StatelessWidget {
           MealDetailsScreen.id,
           arguments: id,
         ).then((returnedMealId){
-          if(returnedMealId != null) {
-            removeMeal(returnedMealId) ;
-          }
+          // if(returnedMealId != null) {
+          // }
         } );
       },
       child: Card(

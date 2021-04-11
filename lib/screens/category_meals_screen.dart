@@ -26,13 +26,13 @@ class _CatMealsScreenState extends State<CatMealsScreen> {
     super.didChangeDependencies();
   }
 
-  void _removeMeal(String receivedId) {
-    setState(() {
-      categoryWantedMeals.removeWhere((meal){
-        return meal.id == receivedId;
-      });
-    });
-  }
+  // void _removeMeal(String receivedId) {
+  //   setState(() {
+  //     categoryWantedMeals.removeWhere((meal){
+  //       return meal.id == receivedId;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,6 @@ class _CatMealsScreenState extends State<CatMealsScreen> {
             affordability: categoryWantedMeals[index].affordability,
             complexity: categoryWantedMeals[index].complexity,
             duration: categoryWantedMeals[index].duration,
-            removeMeal: _removeMeal,
           );
         },
       ),
