@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
+import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/widgets/meal_card.dart';
+import 'package:provider/provider.dart';
 
 class CatMealsScreen extends StatefulWidget {
   static const String id = 'MealsScreen';
-  final List<Meal> filteredMeals ;
-  CatMealsScreen(this.filteredMeals);
   @override
   _CatMealsScreenState createState() => _CatMealsScreenState();
 }
@@ -16,11 +16,12 @@ class _CatMealsScreenState extends State<CatMealsScreen> {
 
   @override
   void didChangeDependencies() {
+    final List<Meal> filteredMeals = Provider.of<MealProvider>(context).filteredData ;
     final receivedData =
     ModalRoute.of(context).settings.arguments as Map<String, String>;
     final String catId = receivedData['id'];
     catName = receivedData['name'];
-    categoryWantedMeals = widget.filteredMeals.where((meal) {
+    categoryWantedMeals = filteredMeals.where((meal) {
       return meal.categories.contains(catId);
     }).toList();
     super.didChangeDependencies();

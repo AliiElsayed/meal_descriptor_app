@@ -1,76 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:meal_app/models/meal.dart';
+import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/category_meals_screen.dart';
 import 'package:meal_app/screens/filters_screen.dart';
 import 'package:meal_app/screens/meal_details_screen.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
-import 'package:meal_app/used_data.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<MealProvider>(
+      create: (context) => MealProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  List<Meal> filteredData = usedMeals;
-  List<Meal> favoriteMeals = [];
-  void _toggleFavorites(String mealId) {
-    setState(() {
-      final retrievedIndex = favoriteMeals.indexWhere((meal) {
-        return meal.id == mealId;
-      });
-
-      if (retrievedIndex >= 0) {
-        favoriteMeals.removeAt(retrievedIndex);
-      } else {
-        favoriteMeals.add(
-          usedMeals.firstWhere((meal) {
-            return meal.id == mealId;
-          }),
-        );
-      }
-    });
-  }
-
-  bool _isFavoriteMeal(String mealId) {
-   return favoriteMeals.any((meal) {
-      return meal.id == mealId;
-    });
-  }
-
-  Map<String, bool> _filters = {
-    'gluten-free': false,
-    'lactose-free': false,
-    'vegetarian': false,
-    'vegan': false,
-  };
-  void _setFilters(Map<String, bool> editedSettings) {
-    setState(() {
-      _filters = editedSettings;
-      filteredData = usedMeals.where((meal) {
-        if (_filters['gluten-free'] == true && meal.isGlutenFree == false) {
-          return false;
-        }
-        if (_filters['lactose-free'] == true && meal.isLactoseFree == false) {
-          return false;
-        }
-        if (_filters['vegetarian'] == true && meal.isVegetarian == false) {
-          return false;
-        }
-        if (_filters['vegan'] == true && meal.isVegan == false) {
-          return false;
-        }
-        print('done');
-        return true;
-      }).toList();
-    });
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,17 +24,11 @@ class _MyAppState extends State<MyApp> {
       title: 'Meal Descriptor',
       initialRoute: TabsScreen.id,
       routes: {
-        TabsScreen.id: (context) => TabsScreen(favoriteMeals),
-        FiltersScreen.id: (context) => FiltersScreen(
-              doFilters: _setFilters,
-              receivedFilters: _filters,
-            ),
+        TabsScreen.id: (context) => TabsScreen(),
+        FiltersScreen.id: (context) => FiltersScreen(),
         CategoriesScreen.id: (context) => CategoriesScreen(),
-        CatMealsScreen.id: (context) => CatMealsScreen(filteredData),
-        MealDetailsScreen.id: (context) => MealDetailsScreen(
-              toggleFavorites: _toggleFavorites,
-              isFavorite: _isFavoriteMeal,
-            ),
+        CatMealsScreen.id: (context) => CatMealsScreen(),
+        MealDetailsScreen.id: (context) => MealDetailsScreen(),
       },
       theme: ThemeData(
         primarySwatch: Colors.pink,

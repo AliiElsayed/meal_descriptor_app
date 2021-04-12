@@ -31,7 +31,7 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           DrawerTile(
-            title: 'Meals',
+            title: 'Categories',
             icon: Icons.restaurant,
             onPressed: () {
               Navigator.of(context).pushReplacementNamed(TabsScreen.id);

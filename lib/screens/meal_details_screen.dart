@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/used_data.dart';
+import 'package:provider/provider.dart';
+import 'package:meal_app/providers/meal_provider.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   static const String id = 'MealDetailsScreen';
-  final Function toggleFavorites;
-  final Function isFavorite;
-  MealDetailsScreen({this.toggleFavorites, this.isFavorite});
   @override
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context).settings.arguments as String;
@@ -95,9 +94,9 @@ class MealDetailsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          toggleFavorites(mealId);
+          Provider.of<MealProvider>(context,listen: false).toggleFavorites(mealId);
         },
-        child: isFavorite(mealId)
+        child: Provider.of<MealProvider>(context,listen: true).isFavoriteMeal(mealId)
             ? Icon(
                 Icons.star,
                 color: Theme.of(context).primaryColor,

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
   static const String id = 'FiltersScreen';
-  final Function doFilters;
-  final Map<String, bool> receivedFilters;
-  FiltersScreen({this.doFilters, this.receivedFilters});
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
 }
@@ -35,11 +34,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    final Map<String, bool> receivedFilters=Provider.of<MealProvider>(context).filters;
+    _glutenFree = receivedFilters['gluten-free'];
+    _lactoseFree = receivedFilters['lactose-free'];
+    _vegetarian = receivedFilters['vegetarian'];
+    _vegan = receivedFilters['vegan'];
+    super.didChangeDependencies();
+  }
+  @override
   void initState() {
-    _glutenFree = widget.receivedFilters['gluten-free'];
-    _lactoseFree = widget.receivedFilters['lactose-free'];
-    _vegetarian = widget.receivedFilters['vegetarian'];
-    _vegan = widget.receivedFilters['vegan'];
+    // _glutenFree = receivedFilters['gluten-free'];
+    // _lactoseFree = receivedFilters['lactose-free'];
+    // _vegetarian = receivedFilters['vegetarian'];
+    // _vegan = receivedFilters['vegan'];
     super.initState();
   }
 
@@ -58,7 +66,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   'vegetarian': _vegetarian,
                   'vegan': _vegan,
                 };
-                widget.doFilters(changedFilters);
+                Provider.of<MealProvider>(context,listen: false).setFilters(changedFilters);
                 Fluttertoast.showToast(
                     msg: "Filters Saved",
                     toastLength: Toast.LENGTH_SHORT,
