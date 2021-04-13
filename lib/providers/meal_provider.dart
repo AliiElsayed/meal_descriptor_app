@@ -35,8 +35,7 @@ class MealProvider with ChangeNotifier {
     'vegetarian': false,
     'vegan': false,
   };
-  void setFilters(Map<String, bool> editedSettings) {
-    filters = editedSettings;
+  void setFilters() {
     filteredData = usedMeals.where((meal) {
       if (filters['gluten-free'] == true && meal.isGlutenFree == false) {
         return false;
@@ -53,6 +52,19 @@ class MealProvider with ChangeNotifier {
       print('done');
       return true;
     }).toList();
+    switchIconShape =false;
     notifyListeners();
   }
+
+  bool switchIconShape = false;
+
+  void checkIcon() {
+    if (switchIconShape != true) {
+        switchIconShape = true;
+    }
+  }
+
+
+
+
 }
