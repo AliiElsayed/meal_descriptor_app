@@ -6,21 +6,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MealProvider with ChangeNotifier {
   List<Meal> filteredData = usedMeals;
   List<Meal> favoriteMeals = [];
-  void toggleFavorites(String mealId) {
+  List<String> prefsFavoriteMealsIds = [];
+
+  void toggleFavorites(String mealId) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
     final retrievedIndex = favoriteMeals.indexWhere((meal) {
       return meal.id == mealId;
     });
 
     if (retrievedIndex >= 0) {
       favoriteMeals.removeAt(retrievedIndex);
+      prefsFavoriteMealsIds.remove(mealId);
     } else {
       favoriteMeals.add(
         usedMeals.firstWhere((meal) {
           return meal.id == mealId;
         }),
       );
+      prefsFavoriteMealsIds.add(mealId);
     }
     notifyListeners();
+    _pref.setStringList('prefsMealsId', prefsFavoriteMealsIds);
   }
 
   bool isFavoriteMeal(String mealId) {
@@ -37,7 +43,7 @@ class MealProvider with ChangeNotifier {
     'vegan': false,
   };
   void setFilters() async {
-     print('setFilters Start !');
+    print('setFilters Start !');
     filteredData = usedMeals.where((meal) {
       if (filters['gluten-free'] == true && meal.isGlutenFree == false) {
         return false;
@@ -60,7 +66,6 @@ class MealProvider with ChangeNotifier {
     _pref.setBool('lactose', filters['lactose-free']);
     _pref.setBool('vegetarian', filters['vegetarian']);
     _pref.setBool('vegan', filters['vegan']);
-
     notifyListeners();
   }
 
@@ -74,10 +79,24 @@ class MealProvider with ChangeNotifier {
 
   void getData() async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
-    filters['gluten-free'] = _pref.getBool('gluten')?? false;
-    filters['lactose-free'] = _pref.getBool('lactose')?? false ;
-    filters['vegetarian'] = _pref.getBool('vegetarian')?? false;
+    filters['gluten-free'] = _pref.getBool('gluten') ?? false;
+    filters['lactose-free'] = _pref.getBool('lactose') ?? false;
+    filters['vegetarian'] = _pref.getBool('vegetarian') ?? false;
     filters['vegan'] = _pref.getBool('vegan') ?? false;
+    prefsFavoriteMealsIds = _pref.getStringList('prefsMealsId') ?? [];
+    for (var mealId in prefsFavoriteMealsIds) {
+      var mealIndex = favoriteMeals.indexWhere((meal) {
+        return meal.id==mealId;
+      });
+      if(mealIndex<0){
+        favoriteMeals.add(
+          usedMeals.firstWhere((meal) {
+            return meal.id == mealId;
+          }),
+        );
+      }
+
+    }
     notifyListeners();
   }
 }
