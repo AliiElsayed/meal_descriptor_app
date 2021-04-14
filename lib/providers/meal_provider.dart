@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/used_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MealProvider with ChangeNotifier {
   List<Meal> filteredData = usedMeals;
@@ -26,7 +27,7 @@ class MealProvider with ChangeNotifier {
     return favoriteMeals.any((meal) {
       return meal.id == mealId;
     });
-    notifyListeners();
+    //notifyListeners();
   }
 
   Map<String, bool> filters = {
@@ -35,7 +36,8 @@ class MealProvider with ChangeNotifier {
     'vegetarian': false,
     'vegan': false,
   };
-  void setFilters() {
+  void setFilters() async {
+     print('setFilters Start !');
     filteredData = usedMeals.where((meal) {
       if (filters['gluten-free'] == true && meal.isGlutenFree == false) {
         return false;
@@ -49,10 +51,16 @@ class MealProvider with ChangeNotifier {
       if (filters['vegan'] == true && meal.isVegan == false) {
         return false;
       }
-      print('done');
+      print('setFilters end !');
       return true;
     }).toList();
-    switchIconShape =false;
+    switchIconShape = false;
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.setBool('gluten', filters['gluten-free']);
+    _pref.setBool('lactose', filters['lactose-free']);
+    _pref.setBool('vegetarian', filters['vegetarian']);
+    _pref.setBool('vegan', filters['vegan']);
+
     notifyListeners();
   }
 
@@ -60,11 +68,16 @@ class MealProvider with ChangeNotifier {
 
   void checkIcon() {
     if (switchIconShape != true) {
-        switchIconShape = true;
+      switchIconShape = true;
     }
   }
 
-
-
-
+  void getData() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    filters['gluten-free'] = _pref.getBool('gluten')?? false;
+    filters['lactose-free'] = _pref.getBool('lactose')?? false ;
+    filters['vegetarian'] = _pref.getBool('vegetarian')?? false;
+    filters['vegan'] = _pref.getBool('vegan') ?? false;
+    notifyListeners();
+  }
 }

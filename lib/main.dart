@@ -7,7 +7,8 @@ import 'package:meal_app/screens/meal_details_screen.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+
+void main(){
   runApp(
     ChangeNotifierProvider<MealProvider>(
       create: (context) => MealProvider(),
