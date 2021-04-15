@@ -24,10 +24,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
       subtitle: Text(description),
       value: switchCurrentValue,
       onChanged: update,
+      activeColor: Theme.of(context).accentColor,
+      inactiveTrackColor: Colors.black,
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

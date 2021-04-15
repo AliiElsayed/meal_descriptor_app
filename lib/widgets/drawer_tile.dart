@@ -11,13 +11,15 @@ class DrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(
-        icon,
+        icon, size: 28.0,
+        color: Theme.of(context).iconTheme.color,
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 26,
           fontFamily:'RobotoCondensed',
+          color: Theme.of(context).textTheme.bodyText1.color,
         ),
       ),
       onTap: onPressed,

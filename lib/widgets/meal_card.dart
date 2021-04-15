@@ -54,13 +54,15 @@ class MealCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
+        Navigator.of(context)
+            .pushNamed(
           MealDetailsScreen.id,
           arguments: id,
-        ).then((returnedMealId){
+        )
+            .then((returnedMealId) {
           // if(returnedMealId != null) {
           // }
-        } );
+        });
       },
       child: Card(
         margin: EdgeInsets.all(10.0),
@@ -111,25 +113,16 @@ class MealCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Row(
-                    children: [
-                      Icon(Icons.schedule),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Text('$duration min'),
-                    ],
+                  ReusableRow(
+                    descriptionText: '$duration min',
+                    icon: Icons.schedule,
                   ),
-                  ReusableRow(complexityText: complexityText),
-                  Row(
-                    children: [
-                      Icon(Icons.attach_money),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Text(affordabilityText),
-                    ],
-                  ),
+                  ReusableRow(
+                      icon: Icons.work, descriptionText: complexityText),
+                  ReusableRow(
+                    descriptionText: affordabilityText,
+                    icon: Icons.attach_money,
+                  )
                 ],
               ),
             ),
@@ -141,21 +134,23 @@ class MealCard extends StatelessWidget {
 }
 
 class ReusableRow extends StatelessWidget {
-  const ReusableRow({
-    @required this.complexityText,
-  });
+  const ReusableRow({@required this.descriptionText, this.icon});
 
-  final String complexityText;
+  final String descriptionText;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(Icons.work),
+        Icon(icon, color: Theme.of(context).textTheme.bodyText2.color),
         SizedBox(
           width: 5.0,
         ),
-        Text(complexityText),
+        Text(
+          descriptionText,
+          style: TextStyle(color:Theme.of(context).textTheme.bodyText2.color ),
+        ),
       ],
     );
   }

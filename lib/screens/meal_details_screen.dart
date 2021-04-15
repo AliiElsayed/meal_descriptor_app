@@ -49,7 +49,10 @@ class MealDetailsScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 5.0),
-                      child: Text(selectedMeal.ingredients[index]),
+                      child: Text(
+                        selectedMeal.ingredients[index],
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   );
                 },
@@ -73,17 +76,24 @@ class MealDetailsScreen extends StatelessWidget {
                       children: [
                         ListTile(
                           leading: CircleAvatar(
-                            child: Text('${index + 1}'),
+                            child: Text(
+                              '${index + 1}',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             backgroundColor:
                                 Theme.of(context).primaryColor.withOpacity(0.9),
                           ),
                           title: Text(
                             '${selectedMeal.steps[index]}',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         Divider(
                           height: 3.0,
                           thickness: 2.0,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
                       ],
                     );
@@ -93,10 +103,13 @@ class MealDetailsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
         onPressed: () {
-          Provider.of<MealProvider>(context,listen: false).toggleFavorites(mealId);
+          Provider.of<MealProvider>(context, listen: false)
+              .toggleFavorites(mealId);
         },
-        child: Provider.of<MealProvider>(context,listen: true).isFavoriteMeal(mealId)
+        child: Provider.of<MealProvider>(context, listen: true)
+                .isFavoriteMeal(mealId)
             ? Icon(
                 Icons.star,
                 color: Theme.of(context).primaryColor,
