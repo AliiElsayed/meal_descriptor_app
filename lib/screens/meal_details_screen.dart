@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:meal_app/used_data.dart';
 import 'package:provider/provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
@@ -51,7 +52,10 @@ class MealDetailsScreen extends StatelessWidget {
                           horizontal: 10.0, vertical: 5.0),
                       child: Text(
                         selectedMeal.ingredients[index],
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: useWhiteForeground(Theme.of(context).accentColor)
+                                ? Colors.white
+                                : Colors.black),
                       ),
                     ),
                   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/providers/meal_provider.dart';
+import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
       value: switchCurrentValue,
       onChanged: update,
       activeColor: Theme.of(context).accentColor,
-      inactiveTrackColor: Colors.black,
+      inactiveTrackColor:
+          Provider.of<ThemeProvider>(context).thMode == ThemeMode.dark
+              ? Colors.black87
+              : null,
     );
   }
 
@@ -39,8 +43,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
         actions: [
           IconButton(
               icon: Provider.of<MealProvider>(context).switchIconShape
-                  ?Icon(Icons.check, color: Colors.white)
-                  : Icon(Icons.save) ,
+                  ? Icon(Icons.check, color: Colors.white)
+                  : Icon(Icons.save),
               onPressed: () {
                 Provider.of<MealProvider>(context, listen: false).setFilters();
                 Fluttertoast.showToast(
@@ -70,7 +74,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     setState(() {
                       currentFilters['gluten-free'] = newVal;
                     });
-                    Provider.of<MealProvider>(context,listen: false).checkIcon();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .checkIcon();
                   },
                 ),
                 buildSwitchListTile(
@@ -81,7 +86,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     setState(() {
                       currentFilters['lactose-free'] = newVal;
                     });
-                    Provider.of<MealProvider>(context,listen: false).checkIcon();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .checkIcon();
                   },
                 ),
                 buildSwitchListTile(
@@ -92,7 +98,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     setState(() {
                       currentFilters['vegetarian'] = newVal;
                     });
-                    Provider.of<MealProvider>(context,listen: false).checkIcon();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .checkIcon();
                   },
                 ),
                 buildSwitchListTile(
@@ -103,7 +110,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     setState(() {
                       currentFilters['vegan'] = newVal;
                     });
-                    Provider.of<MealProvider>(context,listen: false).checkIcon();
+                    Provider.of<MealProvider>(context, listen: false)
+                        .checkIcon();
                   },
                 ),
               ],

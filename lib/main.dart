@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/providers/meal_provider.dart';
+import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/category_meals_screen.dart';
 import 'package:meal_app/screens/filters_screen.dart';
 import 'package:meal_app/screens/meal_details_screen.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
+import 'package:meal_app/screens/themes_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider<MealProvider>(
-      create: (context) => MealProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MealProvider>(
+          create: (context) => MealProvider(),
+        ),
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (context) => ThemeProvider(),
+        )
+      ],
       child: MyApp(),
     ),
   );
@@ -19,6 +28,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var usedPrimaryColor =Provider.of<ThemeProvider>(context).primaryAppColor;
+    var usedAccentColor =Provider.of<ThemeProvider>(context).accentAppColor;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meal Descriptor',
@@ -29,23 +41,25 @@ class MyApp extends StatelessWidget {
         CategoriesScreen.id: (context) => CategoriesScreen(),
         CatMealsScreen.id: (context) => CatMealsScreen(),
         MealDetailsScreen.id: (context) => MealDetailsScreen(),
+        ThemesScreen.id: (context) => ThemesScreen(),
       },
-      themeMode: ThemeMode.light,
+      themeMode: Provider.of<ThemeProvider>(context,listen: true).thMode,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        accentColor: Colors.amber,
+        primarySwatch: usedPrimaryColor,
+        accentColor:usedAccentColor,
         canvasColor: Color.fromRGBO(255, 254, 229, 1),
         iconTheme: IconThemeData(
-          color: Colors.grey,
+          color: Colors.black87,
         ),
         shadowColor: Colors.black87,
+        fontFamily: 'Raleway',
         textTheme: ThemeData.light().textTheme.copyWith(
               bodyText1: TextStyle(
                 color: Color.fromRGBO(20, 50, 50, 1),
               ),
-          bodyText2: TextStyle(
-            color: Colors.black,
-          ),
+              bodyText2: TextStyle(
+                color: Colors.black,
+              ),
               headline6: TextStyle(
                 fontSize: 20,
                 fontFamily: 'RobotoCondensed',
@@ -54,28 +68,28 @@ class MyApp extends StatelessWidget {
             ),
       ),
       darkTheme: ThemeData(
-        primaryColor: Colors.pink,
-        accentColor: Colors.amber,
+        primaryColor: usedPrimaryColor,
+        accentColor: usedAccentColor,
         iconTheme: IconThemeData(
           color: Colors.white70,
         ),
-        cardColor: Color.fromRGBO(14, 22, 33, 1),
-        canvasColor: Color.fromRGBO(35, 34, 39, 1),
+        cardColor: Color.fromRGBO(35, 34, 39, 1),
+        canvasColor: Color.fromRGBO(14, 22, 33, 1),
         shadowColor: Colors.white70,
+        fontFamily: 'Raleway',
+        unselectedWidgetColor: Colors.white70,
         textTheme: ThemeData.dark().textTheme.copyWith(
-          bodyText1: TextStyle(
-            color: Colors.white70
-          ),
-          bodyText2: TextStyle(
-            color: Colors.white,
-          ),
-          headline6: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontFamily: 'RobotoCondensed',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+              bodyText1: TextStyle(color: Colors.white70),
+              bodyText2: TextStyle(
+                color: Colors.white,
+              ),
+              headline6: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'RobotoCondensed',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
       ),
     );
   }

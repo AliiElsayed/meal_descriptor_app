@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/screens/filters_screen.dart';
+import 'package:meal_app/screens/themes_screen.dart';
 import 'package:meal_app/widgets/drawer_tile.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
 
@@ -45,6 +46,16 @@ class MainDrawer extends StatelessWidget {
             icon: Icons.settings,
             onPressed: (){
               Navigator.of(context).pushReplacementNamed(FiltersScreen.id);
+            },
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          DrawerTile(
+            title: 'Themes',
+            icon: Icons.color_lens,
+            onPressed: (){
+              Navigator.of(context).pushReplacementNamed(ThemesScreen.id);
             },
           ),
         ],

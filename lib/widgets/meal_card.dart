@@ -90,12 +90,12 @@ class MealCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  right: 1.0,
+                  right: 0.0,
                   bottom: 20.0,
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-                    width: 250,
+                    width: 230,
                     color: Colors.black54,
                     child: Text(
                       mealName,
