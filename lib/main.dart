@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meal Descriptor',
-      initialRoute: TabsScreen.id,
+      initialRoute:TabsScreen.id  ,
       routes: {
         TabsScreen.id: (context) => TabsScreen(),
         FiltersScreen.id: (context) => FiltersScreen(),

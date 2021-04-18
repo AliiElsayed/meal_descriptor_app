@@ -77,6 +77,22 @@ class MealProvider with ChangeNotifier {
     }
   }
 
+   onArrowBackPressed(BuildContext context){
+    if(switchIconShape == true){
+      showDialog(context: context, builder: (context){
+        return AlertDialog(
+          title: Text('Apply Changes ?'),
+          content: Text('You have changed some filters. Apply changes?') ,
+          actions: [
+            TextButton(onPressed: (){}, child: Text('Discard'),),
+            TextButton(onPressed: (){}, child: Text('Apply'),),
+          ],
+        );
+      });
+    }
+
+  }
+
   void getData() async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
     filters['gluten-free'] = _pref.getBool('gluten') ?? false;

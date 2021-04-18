@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
 import 'package:meal_app/widgets/theme_radio_listtile.dart';
 import 'package:meal_app/widgets/theme_picker_tile.dart';
+import 'package:provider/provider.dart';
 
 class ThemesScreen extends StatefulWidget {
   static const String id = 'ThemesScreen';
@@ -51,13 +53,29 @@ class _ThemesScreenState extends State<ThemesScreen> {
                   themeIcon: Icons.nights_stay_outlined,
                   modeVal: ThemeMode.dark,
                 ),
-                SizedBox(height: 20.0,),
+                SizedBox(
+                  height: 20.0,
+                ),
                 ThemePickerTile(
                   name: 'Primary',
                 ),
-                SizedBox(height: 10.0,),
+                SizedBox(
+                  height: 10.0,
+                ),
                 ThemePickerTile(
                   name: 'Accent',
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical:40.0, horizontal: 100),
+                  child: TextButton(
+                    onPressed: () {
+                      Provider.of<ThemeProvider>(context, listen: false).getDefaultColors();
+                    },
+                    child: Text('Default Colors',style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+
+                    ),),
+                  ),
                 ),
               ],
             ),
