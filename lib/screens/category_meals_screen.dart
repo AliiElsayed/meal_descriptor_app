@@ -16,7 +16,7 @@ class _CatMealsScreenState extends State<CatMealsScreen> {
 
   @override
   void didChangeDependencies() {
-    final List<Meal> filteredMeals = Provider.of<MealProvider>(context).filteredData ;
+    final List<Meal> filteredMeals = Provider.of<MealProvider>(context).filteredMls ;
     final receivedData =
     ModalRoute.of(context).settings.arguments as Map<String, String>;
     final String catId = receivedData['id'];

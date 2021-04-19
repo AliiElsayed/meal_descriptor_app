@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/used_data.dart';
 import 'package:meal_app/widgets/category_container.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatefulWidget {
   static const String id = 'HomePage';
@@ -14,7 +16,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Scaffold(
       body: GridView(
         padding: EdgeInsets.all(10.0),
-        children: usedCategories.map((category) {
+        children: Provider.of<MealProvider>(context)
+            .availableCategories
+            .map((category) {
           return CategoryContainer(
             catId: category.id,
             name: category.title,
@@ -31,4 +35,3 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 }
-

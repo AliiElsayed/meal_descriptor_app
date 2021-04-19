@@ -25,7 +25,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     Provider.of<MealProvider>(context,listen: false).getData();
-    //Provider.of<MealProvider>(context,listen: false).setFilters();
+    Provider.of<MealProvider>(context,listen: false).setFilters();
     Provider.of<ThemeProvider>(context,listen: false).getTheme();
     _pages = [
       {

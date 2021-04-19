@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/models/category.dart';
 import 'package:meal_app/models/meal.dart';
 import 'package:meal_app/used_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MealProvider with ChangeNotifier {
-  List<Meal> filteredData = usedMeals;
+  List<Meal> filteredMls = usedMeals;
   List<Meal> favoriteMeals = [];
   List<String> prefsFavoriteMealsIds = [];
+  List<Category> availableCategories = usedCategories;
 
   void toggleFavorites(String mealId) async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
@@ -44,7 +46,7 @@ class MealProvider with ChangeNotifier {
   };
   void setFilters() async {
     print('setFilters Start !');
-    filteredData = usedMeals.where((meal) {
+    filteredMls = usedMeals.where((meal) {
       if (filters['gluten-free'] == true && meal.isGlutenFree == false) {
         return false;
       }
@@ -60,6 +62,21 @@ class MealProvider with ChangeNotifier {
       print('setFilters end !');
       return true;
     }).toList();
+
+    List<Category> _avilCategories = [];
+    filteredMls.forEach((meal) {
+      meal.categories.forEach((catId) {
+        usedCategories.forEach((category) {
+          if (category.id == catId) {
+            if (!_avilCategories.any((cat) {
+              return cat.id == catId;
+            })) _avilCategories.add(category);
+          }
+        });
+      });
+    });
+    availableCategories = _avilCategories;
+
     switchIconShape = false;
     SharedPreferences _pref = await SharedPreferences.getInstance();
     _pref.setBool('gluten', filters['gluten-free']);
@@ -77,20 +94,28 @@ class MealProvider with ChangeNotifier {
     }
   }
 
-   onArrowBackPressed(BuildContext context){
-    if(switchIconShape == true){
-      showDialog(context: context, builder: (context){
-        return AlertDialog(
-          title: Text('Apply Changes ?'),
-          content: Text('You have changed some filters. Apply changes?') ,
-          actions: [
-            TextButton(onPressed: (){}, child: Text('Discard'),),
-            TextButton(onPressed: (){}, child: Text('Apply'),),
-          ],
-        );
-      });
+  onArrowBackPressed(BuildContext context) {
+    if (switchIconShape == true) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Apply Changes ?'),
+              content: Text('You have changed some filters. Apply changes?'),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text('Discard'),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text('Apply'),
+                ),
+              ],
+            );
+          });
     }
-
+    notifyListeners();
   }
 
   void getData() async {
@@ -100,18 +125,18 @@ class MealProvider with ChangeNotifier {
     filters['vegetarian'] = _pref.getBool('vegetarian') ?? false;
     filters['vegan'] = _pref.getBool('vegan') ?? false;
     prefsFavoriteMealsIds = _pref.getStringList('prefsMealsId') ?? [];
+
     for (var mealId in prefsFavoriteMealsIds) {
       var mealIndex = favoriteMeals.indexWhere((meal) {
-        return meal.id==mealId;
+        return meal.id == mealId;
       });
-      if(mealIndex<0){
+      if (mealIndex < 0) {
         favoriteMeals.add(
           usedMeals.firstWhere((meal) {
             return meal.id == mealId;
           }),
         );
       }
-
     }
     notifyListeners();
   }

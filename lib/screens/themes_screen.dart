@@ -73,7 +73,6 @@ class _ThemesScreenState extends State<ThemesScreen> {
                     },
                     child: Text('Default Colors',style: TextStyle(
                       color: Theme.of(context).primaryColor,
-
                     ),),
                   ),
                 ),
