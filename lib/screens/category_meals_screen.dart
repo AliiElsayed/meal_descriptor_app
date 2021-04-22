@@ -11,14 +11,15 @@ class CatMealsScreen extends StatefulWidget {
 }
 
 class _CatMealsScreenState extends State<CatMealsScreen> {
-  List<Meal> categoryWantedMeals ;
+  List<Meal> categoryWantedMeals;
   String catName;
 
   @override
   void didChangeDependencies() {
-    final List<Meal> filteredMeals = Provider.of<MealProvider>(context).filteredMls ;
+    final List<Meal> filteredMeals =
+        Provider.of<MealProvider>(context).filteredMls;
     final receivedData =
-    ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
     final String catId = receivedData['id'];
     catName = receivedData['name'];
     categoryWantedMeals = filteredMeals.where((meal) {
@@ -37,12 +38,25 @@ class _CatMealsScreenState extends State<CatMealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('$catName Recipes'),
         centerTitle: true,
       ),
-      body: ListView.builder(
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent:
+          (deviceWidth<= 400)? 400 : 500,
+          childAspectRatio: isLandScape
+               ? deviceWidth/ (deviceHeight/0.681) // highest 0.681
+               : deviceWidth/ (deviceHeight /2.2878), // highest num
+          mainAxisSpacing: 0.0,
+          crossAxisSpacing: 0.0,
+        ),
         itemCount: categoryWantedMeals.length,
         itemBuilder: (context, index) {
           return MealCard(

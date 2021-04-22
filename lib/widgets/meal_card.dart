@@ -52,6 +52,9 @@ class MealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
         Navigator.of(context)
@@ -83,7 +86,7 @@ class MealCard extends StatelessWidget {
                     tag: 'mealImage$id',
                     child: Image.network(
                       imagePath,
-                      height: 200,
+                      height: isLandScape? (deviceHeight/1.82) : (deviceHeight/3.06),
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -109,7 +112,8 @@ class MealCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all( 10.0),
+              //padding: EdgeInsets.only(top: 12.0 , left: 5.0 , right: 5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

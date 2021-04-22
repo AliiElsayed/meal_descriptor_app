@@ -9,6 +9,10 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Meal> favoriteMeals =
         Provider.of<MealProvider>(context, listen: true).favoriteMeals;
+    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: favoriteMeals.isEmpty
           ? Center(
@@ -17,7 +21,16 @@ class FavoritesScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 19.0),
               ),
             )
-          : ListView.builder(
+          : GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: (deviceWidth<= 400)? 400 : 500,
+          childAspectRatio: isLandscape
+              ? deviceWidth/ (deviceHeight/0.681)
+              : deviceWidth/ (deviceHeight /2.2878),
+          // childAspectRatio: isLandscape? 2.25/2 : 2.7/2,
+          crossAxisSpacing: 0.0,
+          mainAxisSpacing: 0.0,
+        ),
               itemCount: favoriteMeals.length,
               itemBuilder: (context, index) {
                 return MealCard(
