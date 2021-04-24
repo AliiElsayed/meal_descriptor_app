@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/screens/category_meals_screen.dart';
+import 'package:provider/provider.dart';
 
 class CategoryContainer extends StatelessWidget {
   final String catId;
-  final String name;
   final Color color;
-  CategoryContainer({this.catId, this.name, this.color});
+  CategoryContainer({this.catId,this.color});
   @override
   Widget build(BuildContext context) {
+    var langProvider = Provider.of<LanguageProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(CatMealsScreen.id,arguments:{
           'id':catId,
-          'name':name,
         }, );
       },
       splashColor: Theme.of(context).primaryColor,
@@ -31,7 +32,7 @@ class CategoryContainer extends StatelessWidget {
           ),
         ),
         child: Text(
-          '$name',
+          langProvider.getTexts('cat-$catId'),
           style: Theme.of(context).textTheme.headline6,
         ),
       ),

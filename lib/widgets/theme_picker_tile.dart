@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -9,15 +10,18 @@ class ThemePickerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var langProvider = Provider.of<LanguageProvider>(context);
     return ListTile(
       title: Text(
-        'Choose Your $name Color',
+        name == 'Primary'
+            ? langProvider.getTexts('primary')
+            : langProvider.getTexts('accent'),
         style: Theme.of(context).textTheme.headline6,
       ),
       trailing: CircleAvatar(
         backgroundColor: name == 'Primary'
             ? Provider.of<ThemeProvider>(context, listen: true).primaryAppColor
-            : Provider.of<ThemeProvider>(context,listen: true).accentAppColor,
+            : Provider.of<ThemeProvider>(context, listen: true).accentAppColor,
       ),
       onTap: () {
         showDialog(
@@ -35,7 +39,7 @@ class ThemePickerTile extends StatelessWidget {
                         ? Provider.of<ThemeProvider>(context).primaryAppColor
                         : Provider.of<ThemeProvider>(context).accentAppColor,
                     onColorChanged: (pickedColor) {
-                      Provider.of<ThemeProvider>(context,listen: false)
+                      Provider.of<ThemeProvider>(context, listen: false)
                           .changeColor(pickedColor, name);
                     },
                     displayThumbColor: true,

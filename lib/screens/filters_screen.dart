@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/widgets/main_drawer.dart';
@@ -37,89 +38,93 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     final Map<String, bool> currentFilters =
         Provider.of<MealProvider>(context, listen: true).filters;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Filters'),
-        actions: [
-          IconButton(
-              icon: Provider.of<MealProvider>(context).switchIconShape
-                  ? Icon(Icons.check, color: Colors.white)
-                  : Icon(Icons.save),
-              onPressed: () {
-                Provider.of<MealProvider>(context, listen: false).setFilters();
-                Fluttertoast.showToast(
-                  msg: "Filters Saved",
-                  toastLength: Toast.LENGTH_SHORT,
-                );
-              }),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(15.0),
-            child: Text(
-              'Adjust your meal selections.',
-              style: Theme.of(context).textTheme.headline6,
+    var langProvider = Provider.of<LanguageProvider>(context);
+    return Directionality(
+      textDirection: langProvider.isEnglish ? TextDirection.ltr : TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(langProvider.getTexts('filters_appBar_title'),),
+          actions: [
+            IconButton(
+                icon: Provider.of<MealProvider>(context).switchIconShape
+                    ? Icon(Icons.check, color: Colors.white)
+                    : Icon(Icons.save),
+                onPressed: () {
+                  Provider.of<MealProvider>(context, listen: false).setFilters();
+                  Fluttertoast.showToast(
+                    msg: langProvider.getTexts('toast_message'),
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                }),
+          ],
+        ),
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                langProvider.getTexts('filters_screen_title'),
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                buildSwitchListTile(
-                  title: 'Gluten-Free',
-                  description: 'Only include Gluten-free Meals',
-                  switchCurrentValue: currentFilters['gluten-free'],
-                  update: (newVal) {
-                    setState(() {
-                      currentFilters['gluten-free'] = newVal;
-                    });
-                    Provider.of<MealProvider>(context, listen: false)
-                        .checkIcon();
-                  },
-                ),
-                buildSwitchListTile(
-                  title: 'Lactose free',
-                  description: 'Only include Lactose free Meals',
-                  switchCurrentValue: currentFilters['lactose-free'],
-                  update: (newVal) {
-                    setState(() {
-                      currentFilters['lactose-free'] = newVal;
-                    });
-                    Provider.of<MealProvider>(context, listen: false)
-                        .checkIcon();
-                  },
-                ),
-                buildSwitchListTile(
-                  title: 'Vegetarian',
-                  description: 'Only include Vegetarian Meals',
-                  switchCurrentValue: currentFilters['vegetarian'],
-                  update: (newVal) {
-                    setState(() {
-                      currentFilters['vegetarian'] = newVal;
-                    });
-                    Provider.of<MealProvider>(context, listen: false)
-                        .checkIcon();
-                  },
-                ),
-                buildSwitchListTile(
-                  title: 'vegan',
-                  description: 'Only include vegan Meals',
-                  switchCurrentValue: currentFilters['vegan'],
-                  update: (newVal) {
-                    setState(() {
-                      currentFilters['vegan'] = newVal;
-                    });
-                    Provider.of<MealProvider>(context, listen: false)
-                        .checkIcon();
-                  },
-                ),
-              ],
+            Expanded(
+              child: ListView(
+                children: [
+                  buildSwitchListTile(
+                    title:  langProvider.getTexts('Gluten-free'),
+                    description: langProvider.getTexts('Gluten-free-sub'),
+                    switchCurrentValue: currentFilters['gluten-free'],
+                    update: (newVal) {
+                      setState(() {
+                        currentFilters['gluten-free'] = newVal;
+                      });
+                      Provider.of<MealProvider>(context, listen: false)
+                          .checkIcon();
+                    },
+                  ),
+                  buildSwitchListTile(
+                    title: langProvider.getTexts('Lactose-free'),
+                    description: langProvider.getTexts('Lactose-free-sub'),
+                    switchCurrentValue: currentFilters['lactose-free'],
+                    update: (newVal) {
+                      setState(() {
+                        currentFilters['lactose-free'] = newVal;
+                      });
+                      Provider.of<MealProvider>(context, listen: false)
+                          .checkIcon();
+                    },
+                  ),
+                  buildSwitchListTile(
+                    title: langProvider.getTexts('Vegetarian'),
+                    description: langProvider.getTexts('Vegetarian-sub'),
+                    switchCurrentValue: currentFilters['vegetarian'],
+                    update: (newVal) {
+                      setState(() {
+                        currentFilters['vegetarian'] = newVal;
+                      });
+                      Provider.of<MealProvider>(context, listen: false)
+                          .checkIcon();
+                    },
+                  ),
+                  buildSwitchListTile(
+                    title: langProvider.getTexts('Vegan'),
+                    description: langProvider.getTexts('Vegan-sub'),
+                    switchCurrentValue: currentFilters['vegan'],
+                    update: (newVal) {
+                      setState(() {
+                        currentFilters['vegan'] = newVal;
+                      });
+                      Provider.of<MealProvider>(context, listen: false)
+                          .checkIcon();
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        drawer: MainDrawer(),
       ),
-      drawer: MainDrawer(),
     );
   }
 }

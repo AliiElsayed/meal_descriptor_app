@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
@@ -18,7 +19,9 @@ void main() {
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
-        )
+        ),
+        ChangeNotifierProvider<LanguageProvider>(
+            create: (context) => LanguageProvider()),
       ],
       child: MyApp(),
     ),
@@ -28,13 +31,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var usedPrimaryColor =Provider.of<ThemeProvider>(context).primaryAppColor;
-    var usedAccentColor =Provider.of<ThemeProvider>(context).accentAppColor;
+    var usedPrimaryColor = Provider.of<ThemeProvider>(context).primaryAppColor;
+    var usedAccentColor = Provider.of<ThemeProvider>(context).accentAppColor;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meal Descriptor',
-      initialRoute:TabsScreen.id  ,
+      initialRoute: TabsScreen.id,
       routes: {
         TabsScreen.id: (context) => TabsScreen(),
         FiltersScreen.id: (context) => FiltersScreen(),
@@ -43,10 +46,10 @@ class MyApp extends StatelessWidget {
         MealDetailsScreen.id: (context) => MealDetailsScreen(),
         ThemesScreen.id: (context) => ThemesScreen(),
       },
-      themeMode: Provider.of<ThemeProvider>(context,listen: true).thMode,
+      themeMode: Provider.of<ThemeProvider>(context, listen: true).thMode,
       theme: ThemeData(
         primarySwatch: usedPrimaryColor,
-        accentColor:usedAccentColor,
+        accentColor: usedAccentColor,
         canvasColor: Color.fromRGBO(255, 254, 229, 1),
         iconTheme: IconThemeData(
           color: Colors.black87,

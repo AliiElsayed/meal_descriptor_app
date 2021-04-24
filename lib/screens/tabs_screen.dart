@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
 import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
@@ -14,6 +15,7 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   List<Map<String, dynamic>> _pages;
+  var langProvider ;
 
   int _selectedItemIndex = 0;
   void _itemPressed(int indexVal) {
@@ -22,18 +24,23 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+
   @override
   void initState() {
     Provider.of<MealProvider>(context,listen: false).getData();
     Provider.of<MealProvider>(context,listen: false).setFilters();
     Provider.of<ThemeProvider>(context,listen: false).getTheme();
+    Provider.of<LanguageProvider>(context,listen: false).getLang();
+
+   langProvider =Provider.of<LanguageProvider>(context, listen:false );
+
     _pages = [
       {
-        'title': 'Categories',
+        'title':langProvider.getTexts('categories'),
         'page': CategoriesScreen(),
       },
       {
-        'title': 'Favorites',
+        'title': langProvider.getTexts('your_favorites'),
         'page': FavoritesScreen(),
       },
     ];
@@ -60,12 +67,12 @@ class _TabsScreenState extends State<TabsScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.category),
-            label: 'Categories',
+            label: langProvider.getTexts('categories'),
             backgroundColor: Theme.of(context).primaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            label: 'Favorites',
+            label: langProvider.getTexts('your_favorites'),
             backgroundColor: Theme.of(context).primaryColor,
           ),
         ],
