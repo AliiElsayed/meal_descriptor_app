@@ -57,7 +57,7 @@ class MealDetailsScreen extends StatelessWidget {
     );
     var stepsTitle = titleContainer(context, langProvider.getTexts('Steps'),);
     var stepsContent = Container(
-      height: isLandScape ? 170 : 200,
+      height: isLandScape ? 170 : 228,
       width: isLandScape ? (screenWidth / 2) - 20 : screenWidth,
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -110,14 +110,20 @@ class MealDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 170,
+                height: 200,
                 width: double.infinity,
                 margin: EdgeInsets.only(bottom: 20.0),
                 child: Hero(
                   tag: 'mealImage$mealId',
-                  child: Image.network(
-                    selectedMeal.imageUrl,
-                    fit: BoxFit.cover,
+                  child: InteractiveViewer(
+
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage('assets/images/alternative_image.png'),
+                      image:NetworkImage(
+                        selectedMeal.imageUrl,
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -87,13 +87,15 @@ class MealCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: 'mealImage$id',
-                    child: Image.network(
-                      imagePath,
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/alternative_image.png'),
+                     image : NetworkImage(
+                        imagePath,),
+                      fit: BoxFit.cover,
                       height: isLandScape
                           ? (deviceHeight / 1.82)
                           : (deviceHeight / 3.06),
                       width: double.infinity,
-                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
