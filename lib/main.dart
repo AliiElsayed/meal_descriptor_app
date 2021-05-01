@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:meal_app/providers/language_provider.dart';
 import 'package:meal_app/providers/meal_provider.dart';
+import 'package:meal_app/providers/onBoarding_provider.dart';
 import 'package:meal_app/providers/theme_provider.dart';
 import 'package:meal_app/screens/categories_screen.dart';
 import 'package:meal_app/screens/category_meals_screen.dart';
 import 'package:meal_app/screens/filters_screen.dart';
 import 'package:meal_app/screens/meal_details_screen.dart';
+import 'package:meal_app/screens/onboarding_screen.dart';
 import 'package:meal_app/screens/tabs_screen.dart';
 import 'package:meal_app/screens/themes_screen.dart';
 import 'package:provider/provider.dart';
-
-void main() {
+import 'package:shared_preferences/shared_preferences.dart';
+bool watched;
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences _pref = await SharedPreferences.getInstance();
+  watched = _pref.getBool('watched')??false;
   runApp(
     MultiProvider(
       providers: [
@@ -21,7 +27,11 @@ void main() {
           create: (context) => ThemeProvider(),
         ),
         ChangeNotifierProvider<LanguageProvider>(
-            create: (context) => LanguageProvider()),
+          create: (context) => LanguageProvider(),
+        ),
+        ChangeNotifierProvider<OnBoardingProvider>(
+          create: (context) => OnBoardingProvider(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -37,7 +47,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Meal Descriptor',
-      initialRoute: TabsScreen.id,
+      initialRoute: watched ? TabsScreen.id : OnBoardingScreen.id,
       routes: {
         TabsScreen.id: (context) => TabsScreen(),
         FiltersScreen.id: (context) => FiltersScreen(),
@@ -45,6 +55,7 @@ class MyApp extends StatelessWidget {
         CatMealsScreen.id: (context) => CatMealsScreen(),
         MealDetailsScreen.id: (context) => MealDetailsScreen(),
         ThemesScreen.id: (context) => ThemesScreen(),
+        OnBoardingScreen.id: (context) => OnBoardingScreen(),
       },
       themeMode: Provider.of<ThemeProvider>(context, listen: true).thMode,
       theme: ThemeData(
