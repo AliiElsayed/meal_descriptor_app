@@ -14,6 +14,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     var langProvider = Provider.of<LanguageProvider>(context);
+    bool isLandScape = MediaQuery.of(context).orientation== Orientation.landscape;
     return Directionality(
         textDirection:langProvider.isEnglish ? TextDirection.ltr : TextDirection.rtl,
       child: Scaffold(
@@ -25,13 +26,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             return CategoryContainer(
               catId: category.id,
               color: category.categoryColor,
+              imagePath: category.imageUrl,
             );
           }).toList(),
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            childAspectRatio: 3 / 2,
+            childAspectRatio:isLandScape? 2/2 : 2/1.8,
             crossAxisSpacing: 10.0,
-            maxCrossAxisExtent: 200.0,
-            mainAxisSpacing: 10.0,
+            maxCrossAxisExtent: 270.0,
+            mainAxisSpacing: 8.0,
           ),
         ),
       ),

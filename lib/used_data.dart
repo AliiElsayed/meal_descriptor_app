@@ -5,41 +5,51 @@ import 'package:meal_app/models/meal.dart';
 List<Category> usedCategories = [
   Category(
       id: 'c1',
+      imageUrl:'assets/images/italian.png' ,
       categoryColor: Colors.purple),
   Category(
     id: 'c2',
+    imageUrl:'assets/images/quick.png' ,
     categoryColor: Colors.red,
   ),
   Category(
     id: 'c3',
+    imageUrl:'assets/images/burger.png' ,
     categoryColor: Colors.orange,
   ),
   Category(
     id: 'c4',
+    imageUrl:'assets/images/german.png' ,
     categoryColor: Colors.amber,
   ),
   Category(
     id: 'c5',
+    imageUrl:'assets/images/salas _asp.png' ,
     categoryColor: Colors.blue,
   ),
   Category(
     id: 'c6',
+    imageUrl:'assets/images/exotic_food.png' ,
     categoryColor: Colors.green,
   ),
   Category(
     id: 'c7',
+    imageUrl:'assets/images/breakfast.png' ,
     categoryColor: Colors.lightBlue,
   ),
   Category(
     id: 'c8',
+    imageUrl:'assets/images/indin_curry.png' ,
     categoryColor: Colors.lightGreen,
   ),
   Category(
     id: 'c9',
+    imageUrl:'assets/images/french_food.png' ,
     categoryColor: Colors.pink,
   ),
   Category(
     id: 'c10',
+    imageUrl:'assets/images/summer_salamon.png' ,
     categoryColor: Colors.teal,
   ),
 ];
