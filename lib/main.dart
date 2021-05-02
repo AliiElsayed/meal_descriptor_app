@@ -108,12 +108,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// textTheme: ThemeData.dark().textTheme.copyWith(
-// bodyText1: TextStyle(
-// color: Colors.white70,
-// fontSize: 26,
-// fontFamily:'RobotoCondensed',
-// ),
-// ),
-// ),

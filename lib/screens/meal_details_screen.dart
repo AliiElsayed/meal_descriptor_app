@@ -17,8 +17,10 @@ class MealDetailsScreen extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.landscape;
     double screenWidth = MediaQuery.of(context).size.width;
     var langProvider = Provider.of<LanguageProvider>(context);
-    List<String> ingredientList = langProvider.getTexts('ingredients-$mealId') as List<String> ;
-    List<String> stepsList = langProvider.getTexts('steps-$mealId') as List<String> ;
+    List<String> ingredientList =
+        langProvider.getTexts('ingredients-$mealId') as List<String>;
+    List<String> stepsList =
+        langProvider.getTexts('steps-$mealId') as List<String>;
 
     var ingredientsTitle = titleContainer(
       context,
@@ -28,7 +30,7 @@ class MealDetailsScreen extends StatelessWidget {
     var ingredientsContent = Container(
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      height: 170,
+      height: 190,
       width: isLandScape ? (screenWidth / 2) - 20 : screenWidth - 40,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -36,6 +38,7 @@ class MealDetailsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListView.builder(
+        padding: EdgeInsets.all(0.0),
         itemCount: ingredientList.length,
         itemBuilder: (context, index) {
           return Card(
@@ -55,9 +58,12 @@ class MealDetailsScreen extends StatelessWidget {
         },
       ),
     );
-    var stepsTitle = titleContainer(context, langProvider.getTexts('Steps'),);
+    var stepsTitle = titleContainer(
+      context,
+      langProvider.getTexts('Steps'),
+    );
     var stepsContent = Container(
-      height: isLandScape ? 170 : 228,
+      height: isLandScape ? 190 : 228,
       width: isLandScape ? (screenWidth / 2) - 20 : screenWidth,
       margin: EdgeInsets.all(10.0),
       padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -67,6 +73,7 @@ class MealDetailsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListView.builder(
+        padding: EdgeInsets.all(0.0),
           itemCount: stepsList.length,
           itemBuilder: (context, index) {
             return Column(
@@ -101,66 +108,127 @@ class MealDetailsScreen extends StatelessWidget {
       textDirection:
           langProvider.isEnglish ? TextDirection.ltr : TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            langProvider.getTexts('meal-$mealId'),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 20.0),
-                child: Hero(
-                  tag: 'mealImage$mealId',
-                  child: InteractiveViewer(
-
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage('assets/images/alternative_image.png'),
-                      image:NetworkImage(
-                        selectedMeal.imageUrl,
-                      ),
+        // appBar: AppBar(
+        //   title: Text(
+        //     langProvider.getTexts('meal-$mealId'),
+        //   ),
+        // ),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              centerTitle: false,
+              pinned: true,
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  langProvider.getTexts('meal-$mealId'),
+                ),
+                background: InteractiveViewer(
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder:
+                        AssetImage('assets/images/alternative_image.png'),
+                    image: NetworkImage(
+                      selectedMeal.imageUrl,
                     ),
                   ),
                 ),
               ),
-              if (isLandScape)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  if (isLandScape)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            ingredientsTitle,
+                            ingredientsContent,
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            stepsTitle,
+                            stepsContent,
+                          ],
+                        ),
+                      ],
+                    ),
+                  if (!isLandScape)
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ingredientsTitle,
                         ingredientsContent,
-                      ],
-                    ),
-                    Column(
-                      children: [
                         stepsTitle,
                         stepsContent,
                       ],
                     ),
-                  ],
-                ),
-              if (!isLandScape)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ingredientsTitle,
-                    ingredientsContent,
-                    stepsTitle,
-                    stepsContent,
-                  ],
-                ),
-              SizedBox(
-                height: 20.0,
-              )
-            ],
-          ),
+                  SizedBox(
+                    height: 15.0,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
+        // body: SingleChildScrollView(
+        //   child: Column(
+        //     children: [
+        //       Container(
+        //         height: 200,
+        //         width: double.infinity,
+        //         margin: EdgeInsets.only(bottom: 20.0),
+        //         child: Hero(
+        //           tag: 'mealImage$mealId',
+        //           child: InteractiveViewer(
+        //
+        //             child: FadeInImage(
+        //               fit: BoxFit.cover,
+        //               placeholder: AssetImage('assets/images/alternative_image.png'),
+        //               image:NetworkImage(
+        //                 selectedMeal.imageUrl,
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //       if (isLandScape)
+        //         Row(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [
+        //             Column(
+        //               children: [
+        //                 ingredientsTitle,
+        //                 ingredientsContent,
+        //               ],
+        //             ),
+        //             Column(
+        //               children: [
+        //                 stepsTitle,
+        //                 stepsContent,
+        //               ],
+        //             ),
+        //           ],
+        //         ),
+        //       if (!isLandScape)
+        //         Column(
+        //           crossAxisAlignment: CrossAxisAlignment.center,
+        //           children: [
+        //             ingredientsTitle,
+        //             ingredientsContent,
+        //             stepsTitle,
+        //             stepsContent,
+        //           ],
+        //         ),
+        //       SizedBox(
+        //         height: 20.0,
+        //       )
+        //     ],
+        //   ),
+        // ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).accentColor,
           onPressed: () {
@@ -179,9 +247,9 @@ class MealDetailsScreen extends StatelessWidget {
     );
   }
 
-  Align titleContainer(BuildContext context, String title) {
-    return Align(
-      alignment: Alignment.center,
+  Container titleContainer(BuildContext context, String title) {
+    return Container(
+      padding: EdgeInsets.only(top: 10.0),
       child: Text(
         title,
         style: Theme.of(context).textTheme.headline6,
