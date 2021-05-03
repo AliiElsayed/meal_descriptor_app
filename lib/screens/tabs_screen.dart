@@ -24,16 +24,9 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-
   @override
-  void initState() {
-    Provider.of<MealProvider>(context,listen: false).getData();
-    Provider.of<MealProvider>(context,listen: false).setFilters();
-    Provider.of<ThemeProvider>(context,listen: false).getTheme();
-    Provider.of<LanguageProvider>(context,listen: false).getLang();
-
-   langProvider =Provider.of<LanguageProvider>(context, listen:false );
-
+  void didChangeDependencies() {
+    langProvider =Provider.of<LanguageProvider>(context, listen:false );
     _pages = [
       {
         'title':langProvider.getTexts('categories'),
@@ -44,11 +37,21 @@ class _TabsScreenState extends State<TabsScreen> {
         'page': FavoritesScreen(),
       },
     ];
+    super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    Provider.of<MealProvider>(context,listen: false).getData();
+    Provider.of<MealProvider>(context,listen: false).setFilters();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<LanguageProvider>(context,listen: true).getLang();
+    Provider.of<ThemeProvider>(context,listen: true).getTheme();
+   // Provider.of<MealProvider>(context,listen: false).setFilters();
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -41,8 +41,8 @@ class CategoryContainer extends StatelessWidget {
                     left: 5.0,
                   ),
             padding: isLandScape
-                ? EdgeInsets.only(left: 10, top: 100.0)
-                : EdgeInsets.only(left: 10, top: 80.0),
+                ? EdgeInsets.only(left: 10.0, top: 100.0,right: 10.0 )
+                : EdgeInsets.only(left: 10.0, top: 80.0, right: 10.0),
             height: isLandScape ? deviceHeight / 2.5 : deviceHeight / 4,
             width: deviceWidth / 2,
             decoration: BoxDecoration(
@@ -59,6 +59,7 @@ class CategoryContainer extends StatelessWidget {
             child: Text(
               langProvider.getTexts('cat-$catId'),
               style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.left,
             ),
           ),
           Align(

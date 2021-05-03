@@ -17,6 +17,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences _pref = await SharedPreferences.getInstance();
   watched = _pref.getBool('watched')??false;
+
   runApp(
     MultiProvider(
       providers: [

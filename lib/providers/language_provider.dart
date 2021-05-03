@@ -497,22 +497,22 @@ class LanguageProvider with ChangeNotifier {
 
   changeLanguage(bool val) async {
     isEnglish = val;
+    notifyListeners();
     SharedPreferences _pref = await SharedPreferences.getInstance();
     _pref.setBool('isEnglish', isEnglish);
-    notifyListeners();
+
   }
 
-  getLang() async {
+  void getLang() async {
     SharedPreferences _pref = await SharedPreferences.getInstance();
-    isEnglish = _pref.getBool('isEnglish') ?? true ;
+    isEnglish = _pref.getBool('isEnglish') ?? true;
     notifyListeners();
   }
 
   Object getTexts(String objKey) {
     if (isEnglish == true) {
       return englishTexts[objKey];
-    }
-    {
+    } else {
       return arabicTexts[objKey];
     }
     //notifyListeners();

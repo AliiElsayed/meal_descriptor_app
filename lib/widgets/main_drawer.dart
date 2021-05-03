@@ -122,6 +122,13 @@ class MainDrawer extends StatelessWidget {
               Divider(
                 color: Colors.black54,
               ),
+              Padding(
+                padding: const EdgeInsets.only(top:0.8, right: 20, left: 20,bottom: 2.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text('© Dev. Ali Elsayed'),
+                ),
+              )
             ],
           ),
         ),

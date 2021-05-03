@@ -76,7 +76,6 @@ class MealProvider with ChangeNotifier {
       });
     });
     availableCategories = _avilCategories;
-
     switchIconShape = false;
     SharedPreferences _pref = await SharedPreferences.getInstance();
     _pref.setBool('gluten', filters['gluten-free']);

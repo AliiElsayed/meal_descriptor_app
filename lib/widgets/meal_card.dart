@@ -119,8 +119,7 @@ class MealCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(10.0),
-              //padding: EdgeInsets.only(top: 12.0 , left: 5.0 , right: 5.0),
+              padding: EdgeInsets.only(top:10.0,left:7.0, bottom: 10.0, right:10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
