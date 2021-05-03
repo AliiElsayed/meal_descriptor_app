@@ -40,9 +40,7 @@ class CategoryContainer extends StatelessWidget {
                     right: 20.0,
                     left: 5.0,
                   ),
-            padding: isLandScape
-                ? EdgeInsets.only(left: 10.0, top: 100.0,right: 10.0 )
-                : EdgeInsets.only(left: 10.0, top: 80.0, right: 10.0),
+            padding:EdgeInsets.only(left: 10.0,right: 10.0, bottom: 10.0),
             height: isLandScape ? deviceHeight / 2.5 : deviceHeight / 4,
             width: deviceWidth / 2,
             decoration: BoxDecoration(
@@ -56,18 +54,21 @@ class CategoryContainer extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: Text(
-              langProvider.getTexts('cat-$catId'),
-              style: Theme.of(context).textTheme.headline6,
-              textAlign: TextAlign.left,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                langProvider.getTexts('cat-$catId'),
+                style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.left,
+              ),
             ),
           ),
           Align(
               alignment: Alignment.topRight,
               child: Image.asset(
                 imagePath,
-                height:isLandScape?120: 100.0,
-                width: isLandScape?120 : 100.0,
+                height:isLandScape?deviceHeight/3: deviceHeight/6,
+                width: isLandScape?deviceWidth/3 : deviceWidth/6,
               )),
         ],
       ),
