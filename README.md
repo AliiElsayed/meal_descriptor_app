@@ -1,6 +1,7 @@
 # meal_app
 
 A Flutter application for meals and recipes.
+app sypport landscape , arabic and english language
 
 ## Getting Started
 
