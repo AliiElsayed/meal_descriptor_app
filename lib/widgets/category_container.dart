@@ -40,7 +40,7 @@ class CategoryContainer extends StatelessWidget {
                     right: 20.0,
                     left: 5.0,
                   ),
-            padding:EdgeInsets.only(left: 10.0,right: 10.0, bottom: 10.0),
+            padding:EdgeInsets.only(left: 15.0,right: 10.0, bottom: 10.0),
             height: isLandScape ? deviceHeight / 2.5 : deviceHeight / 4,
             width: deviceWidth / 2,
             decoration: BoxDecoration(
